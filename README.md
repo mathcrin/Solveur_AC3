@@ -1,4 +1,4 @@
-# Problème de Job Shop Scheduling
+# Problème de Job Shop planification
 
 Ce projet est une implémentation en Java du problème de Job Shop Scheduling (JSSP) utilisant la programmation par contraintes. L'objectif est de planifier des tâches sur des machines tout en respectant les contraintes de précédence et disjonctives.
 
