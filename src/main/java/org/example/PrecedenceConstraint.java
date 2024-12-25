@@ -5,8 +5,8 @@ import java.util.List;
 
 //contrainte qui dit qu'une tâche doit être effectuée avant une autre
 public class PrecedenceConstraint extends Constraint{
-    private Variable v1;
-    private Variable v2;
+    private final Variable v1;
+    private final Variable v2;
     private int duration;
 
     public PrecedenceConstraint(Variable v1, Variable v2, int duration) {

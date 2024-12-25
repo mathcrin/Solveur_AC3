@@ -7,6 +7,10 @@ import java.util.stream.Collectors;
 public class Problem {
     private final List<Variable> variables;
     private final List<Constraint> constraints;
+    private int iterationCounter = 0;
+    private int printInterval = 1000;
+    private int nb_machine = 5;
+    private int nb_job = 20;
 
     public Problem(List<Variable> variables, List<Constraint> constraints) {
         this.variables = variables;
@@ -42,8 +46,37 @@ public class Problem {
                     }
                 }
             }
+            if (iterationCounter % printInterval == 0) {
+                afficherSolution();
+            }
         }
         return filtered;
+    }
+
+    private void afficherSolution() {
+        int[][] debut_des_taches = new int[nb_machine][nb_job];
+        for (int i = 0; i < nb_machine; i++) {
+            for (int j = 0; j < nb_job; j++) {
+                debut_des_taches[i][j] = variables.get(i * nb_job + j).getLb();
+            }
+        }
+
+        System.out.println("debut_des_taches = ");
+        System.out.print("[|");
+        for (int i = 0; i < nb_machine; i++) {
+            for (int j = 0; j < nb_job; j++) {
+                System.out.printf("%4d", debut_des_taches[i][j]);
+                if (j < nb_job - 1) {
+                    System.out.print(", ");
+                }
+            }
+            if (i < nb_machine - 1) {
+                System.out.println();
+                System.out.print(" |");
+            }
+        }
+        System.out.println();
+        System.out.println(" |];");
     }
 
     public String toString() {

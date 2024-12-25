@@ -72,12 +72,6 @@ public class ProblemTest extends TestCase {
 
     @Test
     public void testJobShop() {
-//        // Initialize start times for the first machine
-//        for (int j = 0; j < nb_job; j++) {
-//            Variable v = variables.get(j);
-//            v.setLb(j == 0 ? 0 : variables.get(j - 1).getLb() + processing_times[0][j - 1]);
-//            v.setUb(v.getLb());
-//        }
 
         //Ajout des contraintes de précédence entre les machines
         for (int i = 0; i < nb_machine - 1; i++) {
@@ -91,20 +85,19 @@ public class ProblemTest extends TestCase {
             }
         }
 
-        //Ajout des contraintes disjonctives
-        for (int i = 0; i < nb_machine; i++) {
-            for (int j = 0; j < nb_job; j++) {
-                for (int k = j + 1; k < nb_job; k++) {
-                    Variable v1 = variables.get(i * nb_job + j);
-                    Variable v2 = variables.get(i * nb_job + k);
-                    int duration1 = processing_times[i][j];
-                    int duration2 = processing_times[i][k];
+//        //Ajout des contraintes disjonctives
 
-                    Constraint c = new DisjunctiveConstraint(v1, v2, duration1, duration2);
-                    problem.addConstraint(c);
-                }
+        for (int i = 0; i < nb_machine; i++) {
+            for (int j = 0; j < nb_job - 1; j++) {
+                Variable v1 = variables.get(i * nb_job + j);
+                Variable v2 = variables.get(i * nb_job + j+1);
+                int duration1 = processing_times[i][j];
+                int duration2 = processing_times[i][j+1];
+
+                Constraint c = new DisjunctiveConstraint(v1,v2,duration1,duration2);
+                problem.addConstraint(c);
             }
-        }
+        };
 
         problem.solve();
         afficherSoltution();
@@ -118,6 +111,7 @@ public class ProblemTest extends TestCase {
             }
         }
 
+        System.out.println("### Solution finale ###");
         System.out.println("debut_des_taches = ");
         System.out.print("[|");
         for (int i = 0; i < nb_machine; i++) {
